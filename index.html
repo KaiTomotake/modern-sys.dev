@@ -1,57 +1,361 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="utf-8">
-        <title>甲斐智丈の個人サイト</title>
-        <meta name="description" content="Rust言語に人生を捧げた人の個人サイト">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
-        <style>
-            body {
-                font-family: 'JetBrains Mono', monospace;
-            }
-        </style>
-    </head>
-    <body>
-        <h1 style="font-style: italic;">Hello, World!</h1>
-        <a>ここは甲斐智丈の個人サイトです。自己紹介用に作成されました。</a>
-        <h3>自己紹介</h3>
-        <ul>
-            <li>名前： 甲斐智丈</li>
-            <li>趣味： プログラミング (Python・Rust) 、ゲーム</li>
-            <li>好きな動物： ぺんぎん</li>
-        </ul>
-        <h3>スキル</h3>
-        <ul>
-            <li>Rust</li>
-            <li>Python</li>
-        </ul>
-        <h3>実績（笑）</h3>
-        <ul>
-            <li><a href="https://rust-lang.org">Rust言語</a>への<a href="https://thanks.rust-lang.org/rust/all-time/#:~:text=KaiTomotake">コントリビュート</a></li>
-            <li><a href="https://cpprefjp.github.io">cpprefjp</a>へのコントリビュート (stdexcept部分) </li>
-            <li><a href="https://ref.rustlang.jp">Rust言語の日本語ドキュメント</a>の作成</li>
-        </ul>
-        <h3>プロジェクト</h3>
-        <ul>
-            <li><a href="https://github.com/Rust-Developers-JP/rustrefjp">rustrefjp</a></li>
-        </ul>
-        <h3>コンタクト</h3>
-        <ul>
-            <li><a href="https://x.com/kaitomotake">X</a></li>
-            <li><a href="https://github.com/kaitomotake">github</a></li>
-            <li>discord: kaitomotake</li>
-        </ul>
-        <h3>相互リンクたち</h3>
-        <a href="https://profile.activetk.jp/">
-            <img src="./activetk.png" alt="ActiveTk.jp" width="75" hight="75">
-        </a> 
-        <a href="https://yuito-it.jp"> 
-            <img src="https://yuito-it.jp/img/banner/yuitopia_367x130.gif" alt="yuitopia - あかつきゆいと公式ウェブサイト" width="183.5" height="65" /> 
-        </a>
-        <h3>最後に</h3>
-        <p>このサイトは私の大好きなフォント、JetBrains Monoを使用しております。</p>
-        <img src="https://counter.256server.com/modern-sys?theme=moebooru">
-    </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>甲斐智丈の個人サイト</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #0D0D0D;
+      --win-bg: #141414;
+      --bar-bg: #252525;
+      --text:   #CDD6F4;
+      --green:  #A6E3A1;
+      --cyan:   #89DCEB;
+      --blue:   #89B4FA;
+      --orange: #FAB387;
+      --yellow: #F9E2AF;
+      --muted:  #585B70;
+      --rule:   #313244;
+      --mono:   "JetBrains Mono", monospace;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { font-size: 14px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      font-optical-sizing: auto;
+      font-weight: 400;
+      font-style: normal;
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 2rem;
+    }
+
+    /* ── Terminal window chrome ── */
+    .win {
+      border: 1px solid #2A2A2A;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--win-bg);
+    }
+
+    .titlebar {
+      background: var(--bar-bg);
+      border-bottom: 1px solid #1C1C1C;
+      padding: 0.45rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      user-select: none;
+    }
+
+    .dots { display: flex; gap: 7px; align-items: center; }
+
+    .d { width: 12px; height: 12px; border-radius: 50%; }
+    .d-r { background: #FF5F57; }
+    .d-y { background: #FFBD2E; }
+    .d-g { background: #28C840; }
+
+    .tb-title {
+      flex: 1;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* ── Terminal body ── */
+    .t-body {
+      padding: 0.6rem 1.2rem 0.9rem;
+      overflow-x: auto;
+    }
+
+    /* ── Prompt ── */
+    .line { white-space: nowrap; display: flex; align-items: baseline; }
+
+    .u   { color: var(--green); font-weight: 700; }
+    .at  { color: var(--green); font-weight: 700; }
+    .h   { color: var(--green); font-weight: 700; }
+    .col { color: var(--text);  font-weight: 400; }
+    .pth { color: var(--cyan);  font-weight: 700; }
+    .dol { color: var(--text);  font-weight: 400; }
+    .cmd { color: var(--text);  font-weight: 400; }
+
+    /* ── neofetch output ── */
+    .nf-out {
+      display: flex;
+      gap: 2.2rem;
+      align-items: flex-start;
+      padding: 0.15rem 0 0.15rem 0.5rem;
+    }
+
+    .nf-art {
+      color: var(--cyan);
+      font-size: 0.82rem;
+      line-height: 1.45;
+      white-space: pre;
+      flex-shrink: 0;
+      font-weight: 500;
+    }
+
+    .nf-info { display: flex; flex-direction: column; }
+
+    .nf-head { color: var(--green); font-weight: 700; }
+    .nf-head .nf-at { color: var(--text); }
+
+    .nf-rule { color: var(--rule); font-size: 0.82rem; }
+
+    .nf-row { display: flex; align-items: baseline; }
+
+    .nf-k {
+      color: var(--cyan);
+      font-weight: 700;
+      width: 7ch;
+      flex-shrink: 0;
+    }
+
+    .nf-c { color: var(--text); padding: 0 0.3rem; }
+    .nf-v { color: var(--text); }
+    .nf-v a { color: var(--blue); text-decoration: none; }
+    .nf-v a:hover { text-decoration: underline; }
+
+    .rust { color: var(--orange); font-weight: 700; }
+    .py   { color: var(--yellow); font-weight: 700; }
+
+    /* ── ls output ── */
+    .ls-out {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 0.05rem 0 0.05rem 0.5rem;
+    }
+
+    .dir { color: var(--blue); font-weight: 700; text-decoration: none; }
+    .dir:hover { text-decoration: underline; }
+
+    /* ── Interactive prompt ── */
+    .input-line {
+      display: flex;
+      align-items: baseline;
+      white-space: nowrap;
+    }
+
+    .term-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: var(--mono);
+      font-optical-sizing: auto;
+      font-size: 1rem;
+      font-weight: 400;
+      caret-color: var(--text);
+      width: 100%;
+      min-width: 2ch;
+    }
+
+    /* ── rm easter egg output ── */
+    .rm-out { display: none; padding: 0.05rem 0 0.05rem 0.5rem; }
+
+    .rm-msg {
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    .rm-link {
+      color: var(--blue);
+      font-weight: 400;
+      text-decoration: none;
+    }
+    .rm-link:hover { text-decoration: underline; }
+
+    /* ── Mutual links (non-terminal) ── */
+    .mutual { padding: 1.4rem 0 0; }
+
+    .mutual-label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 0.6rem;
+    }
+
+    .mutual-list {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .mutual-link {
+      display: block;
+      opacity: 0.75;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .mutual-link:hover { opacity: 1; transform: translateY(-2px); }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .page { padding: 0.75rem 0.75rem 1.5rem; }
+      html { font-size: 12.5px; }
+      .nf-out { flex-direction: column; gap: 0.4rem; }
+      .ls-out { gap: 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mutual-link { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── Terminal window ── -->
+  <div class="win">
+    <div class="titlebar">
+      <span class="dots">
+        <span class="d d-r"></span>
+        <span class="d d-y"></span>
+        <span class="d d-g"></span>
+      </span>
+      <span class="tb-title">kaitomotake@zorin: ~</span>
+    </div>
+
+    <div class="t-body">
+
+      <!-- $ neofetch -->
+      <div class="line">
+        <span class="u">kaitomotake</span><span class="at">@</span><span class="h">zorin</span><span class="col">:</span><span class="pth">~</span><span class="dol">$</span><span class="cmd">&nbsp;neofetch</span>
+      </div>
+
+      <!-- neofetch output -->
+      <div class="nf-out">
+        <pre class="nf-art">   .--.
+  |o_o |
+  |:_/ |
+ //   \ \
+(|     | )
+/'\_   _/`\
+\___)=(___/</pre>
+        <div class="nf-info">
+          <div class="nf-head">kaitomotake<span class="nf-at">@</span>zorin</div>
+          <div class="nf-rule">────────────────────────────</div>
+          <div class="nf-row">
+            <span class="nf-k">Name</span><span class="nf-c">:</span><span class="nf-v"> 甲斐智丈</span>
+          </div>
+          <div class="nf-row">
+            <span class="nf-k">Hobby</span><span class="nf-c">:</span><span class="nf-v"> プログラミング（<span class="rust">Rust</span>、<span class="py">Python</span>）</span>
+          </div>
+          <div class="nf-row">
+            <span class="nf-k">Like</span><span class="nf-c">:</span><span class="nf-v"> ぺんぎん</span>
+          </div>
+          <div class="nf-row">
+            <span class="nf-k">Skills</span><span class="nf-c">:</span><span class="nf-v"> <span class="rust">Rust</span>&nbsp;&nbsp;<span class="py">Python</span></span>
+          </div>
+          <div class="nf-rule">────────────────────────────</div>
+          <div class="nf-row">
+            <span class="nf-k">X</span><span class="nf-c">:</span><span class="nf-v"> <a href="https://x.com/kaitomotake" target="_blank" rel="noopener">@kaitomotake</a></span>
+          </div>
+          <div class="nf-row">
+            <span class="nf-k">GitHub</span><span class="nf-c">:</span><span class="nf-v"> <a href="https://github.com/kaitomotake" target="_blank" rel="noopener">@kaitomotake</a></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- $ ls projects/ -->
+      <div class="line">
+        <span class="u">kaitomotake</span><span class="at">@</span><span class="h">zorin</span><span class="col">:</span><span class="pth">~</span><span class="dol">$</span><span class="cmd">&nbsp;ls projects/</span>
+      </div>
+      <div class="ls-out">
+        <a class="dir" href="https://github.com/rust-developers-jp/rustrefjp" target="_blank" rel="noopener">rustrefjp/</a>
+        <a class="dir" href="https://github.com/kaitomotake/nomens" target="_blank" rel="noopener">nomens/</a>
+        <a class="dir" href="https://github.com/apteron-lang/apteron" target="_blank" rel="noopener">apteron/</a>
+      </div>
+
+      <!-- $ ls communities/ -->
+      <div class="line">
+        <span class="u">kaitomotake</span><span class="at">@</span><span class="h">zorin</span><span class="col">:</span><span class="pth">~</span><span class="dol">$</span><span class="cmd">&nbsp;ls communities/</span>
+      </div>
+      <div class="ls-out">
+        <a class="dir" href="https://discord.gg/Yg4vEs6VKd" target="_blank" rel="noopener">Rust Developers JP/</a>
+      </div>
+
+      <!-- interactive prompt -->
+      <div class="input-line" id="input-line">
+        <span class="u">kaitomotake</span><span class="at">@</span><span class="h">zorin</span><span class="col">:</span><span class="pth">~</span><span class="dol">$</span><span class="cmd">&nbsp;</span><input
+          id="term-input"
+          class="term-input"
+          type="text"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-label="terminal input"
+        >
+      </div>
+
+      <!-- rm easter egg output (hidden until triggered) -->
+      <div class="rm-out" id="rm-out">
+        <span class="rm-msg">Rustを学ぼう！&nbsp;</span><a class="rm-link" href="https://doc.rust-lang.org/rust-by-example/ja/" target="_blank" rel="noopener">https://doc.rust-lang.org/rust-by-example/ja/</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 相互リンク (non-terminal) ── -->
+  <div class="mutual">
+    <div class="mutual-label">相互リンク</div>
+    <div class="mutual-list">
+      <a class="mutual-link" href="https://profile.activetk.jp/" target="_blank" rel="noopener">
+        <img src="./activetk.png" alt="ActiveTk.jp" width="75" height="75">
+      </a>
+      <a class="mutual-link" href="https://yuito-it.jp" target="_blank" rel="noopener">
+        <img src="https://yuito-it.jp/img/banner/yuitopia_367x130.gif" alt="yuitopia - あかつきゆいと公式ウェブサイト" width="183.5" height="65">
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const input = document.getElementById('term-input');
+  const rmOut = document.getElementById('rm-out');
+  const TARGET = 'sudo rm -rf --no-preserve-root /';
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter') return;
+    const val = this.value.trim();
+    if (val !== TARGET) {
+      this.value = '';
+      return;
+    }
+    // Freeze: replace <input> with a plain <span> so the typed command stays visible
+    const frozen = document.createElement('span');
+    frozen.className = 'cmd';
+    frozen.textContent = val;
+    this.parentNode.replaceChild(frozen, this);
+    // Show stdout below the (now frozen) prompt line
+    rmOut.style.display = 'block';
+    setTimeout(function () {
+      window.location.href = 'https://doc.rust-lang.org/rust-by-example/ja/';
+    }, 1500);
+  });
+</script>
+
+</body>
 </html>
